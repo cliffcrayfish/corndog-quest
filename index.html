@@ -762,14 +762,14 @@
             scanEffect.classList.add('active');
             
             try {
-                // Use Overpass API to find fast food places
+                // Use Overpass API to find corn dog places
                 const overpassQuery = `
-                    [out:json][timeout:25];
+                    [out:json][timeout:30];
                     (
-                        node["amenity"="fast_food"](around:50000,${lat},${lon});
-                        way["amenity"="fast_food"](around:50000,${lat},${lon});
-                        node["name"~"corndog|Corn Dog|corn dog",i](around:50000,${lat},${lon});
-                        way["name"~"corndog|Corn Dog|corn dog",i](around:50000,${lat},${lon});
+                        node["name"~"corndog|Corn Dog",i](around:10000,${lat},${lon});
+                        way["name"~"corndog|Corn Dog",i](around:10000,${lat},${lon});
+                        node["amenity"="fast_food"](around:5000,${lat},${lon});
+                        way["amenity"="fast_food"](around:5000,${lat},${lon});
                     );
                     out body;
                 `;
