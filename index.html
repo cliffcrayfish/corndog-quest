@@ -763,13 +763,15 @@
             
             try {
                 // Use Overpass API to find corn dog places
+                // 10 miles = 16093 meters
+                const searchRadiusMeters = 16093;
                 const overpassQuery = `
                     [out:json][timeout:30];
                     (
-                        node["name"~"corndog|Corn Dog",i](around:10000,${lat},${lon});
-                        way["name"~"corndog|Corn Dog",i](around:10000,${lat},${lon});
-                        node["amenity"="fast_food"](around:5000,${lat},${lon});
-                        way["amenity"="fast_food"](around:5000,${lat},${lon});
+                        node["name"~"corndog|Corn Dog",i](around:${searchRadiusMeters},${lat},${lon});
+                        way["name"~"corndog|Corn Dog",i](around:${searchRadiusMeters},${lat},${lon});
+                        node["amenity"="fast_food"](around:${searchRadiusMeters},${lat},${lon});
+                        way["amenity"="fast_food"](around:${searchRadiusMeters},${lat},${lon});
                     );
                     out body;
                 `;
@@ -837,16 +839,16 @@
             return parts.length > 0 ? parts.join(' ') : 'Address unknown';
         }
 
-        // Calculate distance using Haversine formula
+        // Calculate distance using Haversine formula (miles)
         function calculateDistance(lat1, lon1, lat2, lon2) {
-            const R = 6371; // Earth's radius in km
+            const R = 3959; // Earth's radius in miles
             const dLat = toRad(lat2 - lat1);
             const dLon = toRad(lon2 - lon1);
             const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
                       Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
                       Math.sin(dLon/2) * Math.sin(dLon/2);
             const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-            return Math.round(R * c * 0.621371); // Convert to miles
+            return Math.round(R * c); // Distance in miles
         }
 
         function toRad(deg) {
@@ -859,7 +861,7 @@
             
             // Update PSI stats
             document.getElementById('psiPower').textContent = '★★★★';
-            document.getElementById('scanRange').textContent = '50km';
+            document.getElementById('scanRange').textContent = '10mi';
             document.getElementById('corndogCount').textContent = gameState.corndogPlaces.length;
             
             // Sort by distance
