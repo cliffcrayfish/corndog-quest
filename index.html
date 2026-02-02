@@ -768,8 +768,8 @@
                     (
                         node["amenity"="fast_food"](around:50000,${lat},${lon});
                         way["amenity"="fast_food"](around:50000,${lat},${lon});
-                        node["name"~"corndog|Corn Dog|corn dog"i](around:50000,${lat},${lon});
-                        way["name"~"corndog|Corn Dog|corn dog"i](around:50000,${lat},${lon});
+                        node["name"~"corndog|Corn Dog|corn dog",i](around:50000,${lat},${lon});
+                        way["name"~"corndog|Corn Dog|corn dog",i](around:50000,${lat},${lon});
                     );
                     out body;
                 `;
